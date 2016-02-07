@@ -123,9 +123,11 @@ class SiteController extends Controller
         $view['districtList'] = ArrayHelper::map(
             District::find()->where("district != ''")->orderBy('district')->all(), 'id_district', 'district');
 
+        $params = ArrayHelper::merge(Yii::$app->request->getQueryParams(), Yii::$app->request->post());
+        $searchForm->load($params);
 
-        if($searchForm->load(Yii::$app->request->getQueryParams())) {
-            $view['list'] = $searchForm->search();
+        if(implode('', $searchForm->toArray())) {
+            //$view['list'] = $searchForm->search();
         } else {
             $amount = (integer) ArrayHelper::getValue(Main::findBySql("select count(id_person) as amount from main")->asArray()->one(), 'amount');
         }
@@ -136,6 +138,7 @@ class SiteController extends Controller
             ]
         );
 
+        //dd($amount);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $searchForm->getSearchQuery(),

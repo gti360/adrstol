@@ -34,11 +34,18 @@ $this->params['breadcrumbs'][] = $this->title;
         $('.pagination a').on('click', function(){
             $this = $(this);
             var href = $this.attr('href');
+            //var search = location.search.substring(1);
+            //var searchObj = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 
-            console.log($('#search-form').serialize());
             href += "&" + $('#search-form').serialize();
-            console.log(href);
             window.open(href, "_self");
+            return false;
+        });
+
+        $('button[name="reset-button"]').on('click', function(){
+            $('#search-form input[type="text"]').val('');
+            $('#search-form select').val('');
+            $('#search-form').submit();
             return false;
         });
     });
